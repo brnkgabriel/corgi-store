@@ -1,33 +1,21 @@
-import { component$ } from '@builder.io/qwik';
-import { QwikLogo } from '../icons/qwik';
-import styles from './header.module.css';
+import { component$, useStore } from '@builder.io/qwik'; 
 
 export default component$(() => {
+
+  const store = useStore({ scrolled: false })
+
+
   return (
-    <header class={styles.header}>
-      <div class={['container', styles.wrapper]}>
-        <div class={styles.logo}>
-          <a href="/" title="qwik">
-            <QwikLogo height={50} width={143} />
-          </a>
-        </div>
-        <ul>
-          <li>
-            <a href="https://qwik.builder.io/docs/components/overview/" target="_blank">
-              Docs
-            </a>
-          </li>
-          <li>
-            <a href="https://qwik.builder.io/examples/introduction/hello-world/" target="_blank">
-              Examples
-            </a>
-          </li>
-          <li>
-            <a href="https://qwik.builder.io/tutorial/welcome/overview/" target="_blank">
-              Tutorials
-            </a>
-          </li>
-        </ul>
+    <header class={store.scrolled ? "bg-slate-900 shadow" : "bg-transparent"} document:onScroll$={() => {
+      if (window.scrollY > 0) {
+        store.scrolled = true
+      } else {
+        store.scrolled = false
+      }
+    }}>
+      <h1>Corgitto</h1>
+      <div class="text-xl sm:text-3xl">
+        <i class="fa-solid fa-cart-shopping"></i>
       </div>
     </header>
   );
