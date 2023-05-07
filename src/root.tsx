@@ -1,6 +1,9 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useContextProvider, createContextId, useStore } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
+import type { iCorgisBasket } from '~/types/interfaces';
+
+export const MyContext = createContextId<iCorgisBasket>("my-context")
 
 import './global.css';
 
@@ -11,6 +14,12 @@ export default component$(() => {
    *
    * Dont remove the `<head>` and `<body>` elements.
    */
+  
+  const state = useStore<iCorgisBasket>({
+    items: []
+  })
+
+  useContextProvider(MyContext, state)
 
   return (
     <QwikCityProvider>

@@ -1,5 +1,6 @@
-import { component$, useStore, useVisibleTask$ } from '@builder.io/qwik';
+import { component$, useContext, useStore, useVisibleTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
+import { MyContext } from '~/root';
 import type { iCorgis, iCorgisBasket } from '~/types/interfaces';
 
 export default component$(() => {
@@ -10,12 +11,21 @@ export default component$(() => {
     price: ""
   })
 
+  const contextState = useContext(MyContext)
+  console.log(contextState)
+
   useVisibleTask$(() => {
     const data = JSON.parse(localStorage.getItem("corgitto") as unknown as string) as iCorgis
     store.name = data.name
     store.url = data.url
-    store.price = data.price
-    console.log("store is", store)
+    store.price = data.price 
+  })
+
+  useVisibleTask$(() => {
+    const corgiBasket = localStorage.getItem("corgi-basket")
+    if (corgiBasket) {
+      contextState.items = JSON.parse(corgiBasket).items
+    }
   })
 
   return (
@@ -32,6 +42,7 @@ export default component$(() => {
         }
         currentBasket.items.push(store)
         localStorage.setItem("corgi-basket", JSON.stringify(currentBasket))
+        contextState.items.push(store)
       }} class="border border-slate-900 border-solid px-8 mx-auto py-4">ADOPT</button>
     </div>
   );
