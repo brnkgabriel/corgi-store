@@ -17,6 +17,7 @@
 * {
   font-family: Jost, sans-serif;
   scroll-behavior: smooth;
+  transition-duration: 300ms;
 }
 header {
   @apply fixed top-0 left-0 w-full flex justify-between items-center p-4 text-white text-xl sm:text-4xl sm:p-8 z-20;
